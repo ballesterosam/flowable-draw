@@ -1,0 +1,6 @@
+{
+    warnings: true,
+    mangle: {
+        toplevel: false
+    }
+};

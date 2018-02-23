@@ -11,6 +11,18 @@
  * limitations under the License.
  */
 
+function _bpmnGetColor(element, defaultColor) {
+    var strokeColor;
+    if(element.current) {
+      strokeColor = CURRENT_COLOR;
+    } else if(element.completed) {
+      strokeColor = COMPLETED_COLOR;
+    } else {
+      strokeColor = defaultColor;
+    }
+    return strokeColor;
+  }
+  
 function _drawUserTaskIcon(paper, startX, startY, element)
 {
 
