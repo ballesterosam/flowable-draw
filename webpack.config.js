@@ -2,10 +2,15 @@ const webpack = require('webpack')
 
 module.exports = {
   context: __dirname ,
-  entry: "./main.js",
+  entry: { 
+    main: "./main.js",
+    flowableDraw: "./bpmn-draw.js"
+  },
   output: {
     path: __dirname + "/dist",
-    filename: "main.js"
+    filename: "[name].js",
+    library: "[name]",
+    libraryTarget: "umd"
   },
   module: {
     loaders: [

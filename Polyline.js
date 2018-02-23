@@ -43,7 +43,7 @@ Anchor.prototype = {
 	typeIndex: 0
 };
 
-function Polyline(uuid, points, strokeWidth, paper) {
+export function Polyline(uuid, points, strokeWidth, paper) {
 	/* Array on coordinates:
 	 * points: [{x: 410, y: 110}, 1
 	 *			{x: 570, y: 110}, 1 2
@@ -158,6 +158,7 @@ Polyline.prototype = {
 	},
 
 	pushAnchor: function(type, x, y, index){
+		var typeIndex;
 		if (type == ANCHOR_TYPE.first) {
 			index = 0;
 			typeIndex = 0;

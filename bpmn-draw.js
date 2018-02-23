@@ -1,3 +1,7 @@
+  var Raphael = require('raphael');
+  var icons = require('./bpmn-icons.js');
+  var Polyline = require('./Polyline.js').Polyline;
+  
   var NORMAL_STROKE = 1;
   var SEQUENCEFLOW_STROKE = 1.5;
   var TASK_STROKE = 1;
@@ -376,7 +380,7 @@
 
     circle.id = element.id;
 
-    _drawEventIcon(paper, element);
+    icons._drawEventIcon(paper, element);
 
     return circle;
   }
@@ -384,24 +388,24 @@
   function _drawSendTask(element)
 {
     _drawTask(element);
-    _drawSendTaskIcon(paper, element.x + 4, element.y + 4);
+    icons._drawSendTaskIcon(paper, element.x + 4, element.y + 4);
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
 }
 
   function _drawServiceTask(element) {
     _drawTask(element);
     if (element.taskType === "mail") {
-      _drawSendTaskIcon(paper, element.x - 4, element.y - 4, element);
+      icons._drawSendTaskIcon(paper, element.x - 4, element.y - 4, element);
     } else if (element.taskType === "camel") {
-      _drawCamelTaskIcon(paper, element.x + 4, element.y + 4);
+      icons._drawCamelTaskIcon(paper, element.x + 4, element.y + 4);
     } else if (element.taskType === "mule") {
-      _drawMuleTaskIcon(paper, element.x + 4, element.y + 4);
+      icons._drawMuleTaskIcon(paper, element.x + 4, element.y + 4);
     } else if (element.taskType === "http") {
-      _drawHttpTaskIcon(paper, element.x + 4, element.y + 4);
+      icons._drawHttpTaskIcon(paper, element.x + 4, element.y + 4);
     } else if (element.taskType === "dmn") {
-      _drawDecisionTaskIcon(paper, element.x + 4, element.y + 4);
+      icons._drawDecisionTaskIcon(paper, element.x + 4, element.y + 4);
     } else if (element.taskType === "shell") {
-      _drawShellTaskIcon(paper, element.x + 4, element.y + 4);
+      icons._drawShellTaskIcon(paper, element.x + 4, element.y + 4);
     } else if (element.stencilIconId) {
       paper.image(
         "../service/stencilitem/" + element.stencilIconId + "/icon",
@@ -411,7 +415,7 @@
         16
       );
     } else {
-      _drawServiceTaskIcon(paper, element.x + 4, element.y + 4, element);
+      icons._drawServiceTaskIcon(paper, element.x + 4, element.y + 4, element);
     }
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
   }
@@ -455,13 +459,13 @@
 
   function _drawScriptTask(element) {
     _drawTask(element);
-    _drawScriptTaskIcon(paper, element.x + 4, element.y + 4, element);
+    icons._drawScriptTaskIcon(paper, element.x + 4, element.y + 4, element);
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
   }
 
   function _drawUserTask(element) {
     _drawTask(element);
-    _drawUserTaskIcon(paper, element.x + 4, element.y + 4, element);
+    icons._drawUserTaskIcon(paper, element.x + 4, element.y + 4, element);
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
   }
 
@@ -473,13 +477,13 @@
 
   function _drawManualTask(element) {
     _drawTask(element);
-    _drawManualTaskIcon(paper, element.x + 4, element.y + 4, element);
+    icons._drawManualTaskIcon(paper, element.x + 4, element.y + 4, element);
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
   }
 
   function _drawReceiveTask(element) {
     _drawTask(element);
-    _drawReceiveTaskIcon(paper, element.x, element.y, element);
+    icons._drawReceiveTaskIcon(paper, element.x, element.y, element);
     _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
   }
 
@@ -676,7 +680,7 @@
       fill: "none"
     });
 
-    _drawEventIcon(paper, element);
+    icons._drawEventIcon(paper, element);
     _addHoverLogic(element, "circle", MAIN_STROKE_COLOR);
 
     circle.id = element.id;
@@ -705,7 +709,7 @@
       fill: "none"
     });
 
-    _drawEventIcon(paper, element);
+    icons._drawEventIcon(paper, element);
     _addHoverLogic(element, "circle", MAIN_STROKE_COLOR);
 
     circle.id = element.id;
@@ -734,7 +738,7 @@
       fill: "none"
     });
 
-    _drawEventIcon(paper, element);
+    icons._drawEventIcon(paper, element);
     _addHoverLogic(element, "circle", MAIN_STROKE_COLOR);
 
     circle.id = element.id;
