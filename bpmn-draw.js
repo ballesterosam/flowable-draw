@@ -554,7 +554,7 @@ function _drawFlow(flow){
             "stroke" : "#000000"
 	});
 
-	_showTip($(polylineInvisible.element.node), flow);
+	// _showTip($(polylineInvisible.element.node), flow);
 
 	polylineInvisible.element.mouseover(function() {
 		paper.getById(polyline.element.id).attr({"stroke": HOVER_COLOR});

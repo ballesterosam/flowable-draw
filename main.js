@@ -38,11 +38,6 @@ var viewBoxHeight;
 var canvasWidth;
 var canvasHeight;
 
-var definitionId = $("#bpmnModel").attr("data-definition-id");
-var instanceId = $("#bpmnModel").attr("data-instance-id");
-var historyInstanceId = $("#bpmnModel").attr("data-history-id");
-var serverId = $("#bpmnModel").attr("data-server-id");
-
 var elementsAdded = new Array();
 var elementsRemoved = new Array();
 var changeStateStartElementIds = new Array();
@@ -64,28 +59,6 @@ function _showTip(htmlNode, element) {
   } else {
     text = element.id;
   }
-
-  htmlNode.qtip({
-    content: {
-      text: documentation,
-      title: {
-        text: text
-      }
-    },
-    position: {
-      my: "top left",
-      at: "bottom center",
-      viewport: $(window)
-    },
-    hide: {
-      fixed: true,
-      delay: 100,
-      event: "click mouseleave"
-    },
-    style: {
-      classes: "ui-tooltip-kisbpm-bpmn"
-    }
-  });
 }
 
 function _addHoverLogic(element, type, defaultColor) {
@@ -126,12 +99,12 @@ function _addHoverLogic(element, type, defaultColor) {
 
   var opacity = 0;
   var fillColor = "#ffffff";
-  if ($.inArray(element.id, elementsAdded) >= 0) {
+  if (elementsAdded.indexOf(e => e.id) >= 0) {
     opacity = 0.2;
     fillColor = "green";
   }
 
-  if ($.inArray(element.id, elementsRemoved) >= 0) {
+  if (elementsRemoved.indexOf(e => e.id) >= 0) {
     opacity = 0.2;
     fillColor = "red";
   }
@@ -141,7 +114,7 @@ function _addHoverLogic(element, type, defaultColor) {
     stroke: "none",
     fill: fillColor
   });
-  _showTip($(topBodyRect.node), element);
+  // _showTip($(topBodyRect.node), element);
 
   topBodyRect.mouseover(function() {
     paper.getById(element.id).attr({ stroke: HOVER_COLOR });
@@ -152,8 +125,8 @@ function _addHoverLogic(element, type, defaultColor) {
   });
 
   topBodyRect.click(function() {
-    var startElementIndex = $.inArray(element.id, changeStateStartElementIds);
-    var endElementIndex = $.inArray(element.id, changeStateEndElementIds);
+    var startElementIndex = changeStateStartElementIds.indexOf(e => e.id);
+    var endElementIndex = changeStateEndElementIds.indexOf(e => e.id);
     if (startElementIndex >= 0) {
       var glowElement = changeStateStartGlowElements[startElementIndex];
       glowElement.remove();
@@ -186,9 +159,9 @@ function _addHoverLogic(element, type, defaultColor) {
       changeStateStartElements.length > 0 &&
       changeStateEndElements.length > 0
     ) {
-      $("#changeStateButton").show();
+      // $("#changeStateButton").show();
     } else {
-      $("#changeStateButton").hide();
+      // $("#changeStateButton").hide();
     }
   });
 }
@@ -454,13 +427,13 @@ function _showProcessDiagram() {
   viewBoxWidth = INITIAL_CANVAS_WIDTH;
   viewBoxHeight = INITIAL_CANVAS_HEIGHT;
 
-  var x = 0;
-  if ($(window).width() > canvasWidth) {
-    x = ($(window).width() - canvasWidth) / 2 - data.diagramBeginX / 2;
+  var width = window.innerWidth;
+  if (width > canvasWidth) {
+    x = (width - canvasWidth) / 2 - data.diagramBeginX / 2;
   }
 
-  $("#bpmnModel").width(INITIAL_CANVAS_WIDTH);
-  $("#bpmnModel").height(INITIAL_CANVAS_HEIGHT);
+  document.getElementById("bpmnModel").style.width = `${INITIAL_CANVAS_WIDTH}px`;
+  document.getElementById("bpmnModel").style.height = `${INITIAL_CANVAS_HEIGHT}px`;
   paper = Raphael(
     document.getElementById("bpmnModel"),
     canvasWidth,
@@ -494,59 +467,6 @@ function _showProcessDiagram() {
   }
 }
 
-$(document).ready(function() {
-  $(document).on("click", "#changeStateButton", function(e) {
-    e.preventDefault();
-
-    var startElementText = "";
-    for (var i = 0; i < changeStateStartElements.length; i++) {
-      if (startElementText.length > 0) {
-        startElementText += ", ";
-      }
-      startElementText += changeStateStartElements[i].name;
-    }
-
-    var endElementText = "";
-    for (var i = 0; i < changeStateEndElements.length; i++) {
-      if (endElementText.length > 0) {
-        endElementText += ", ";
-      }
-      endElementText += changeStateEndElements[i].name;
-    }
-
-    $.confirm({
-      title: "Change current activity?",
-      content:
-        "Are you sure you want to move the current state from (" +
-        startElementText +
-        ") to (" +
-        endElementText +
-        ")",
-      buttons: {
-        confirm: function() {
-          $.ajax({
-            type: "post",
-            url:
-              "./app/rest/admin/process-instances/" +
-              instanceId +
-              "/change-state",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-              cancelActivityIds: changeStateStartElementIds,
-              startActivityIds: changeStateEndElementIds
-            }),
-            success: function() {
-              paper.clear();
-              _showProcessDiagram();
-            }
-          });
-        },
-        cancel: function() {}
-      }
-    });
-  });
-});
-
-$(document).ready(function() {
+function bootstrap() {
   _showProcessDiagram();
-});
+}
