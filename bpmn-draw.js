@@ -236,16 +236,17 @@
     }
   }
 
-  function _bpmnGetColor(element, defaultColor) {
-    var strokeColor;
-    if (element.current) {
-      strokeColor = CURRENT_COLOR;
-    } else if (element.completed) {
-      strokeColor = COMPLETED_COLOR;
-    } else {
-      strokeColor = defaultColor;
-    }
-    return strokeColor;
+  function _bpmnGetColor(element, defaultColor)
+  {
+      var strokeColor;
+      if(element && element.current) {
+          strokeColor = CURRENT_COLOR;
+      } else if(element && element.completed) {
+          strokeColor = COMPLETED_COLOR;
+      } else {
+          strokeColor = defaultColor;
+      }
+      return strokeColor;
   }
 
   function _drawPool(pool) {
@@ -372,6 +373,13 @@
 
     return circle;
   }
+
+  function _drawSendTask(element)
+{
+    _drawTask(element);
+    _drawSendTaskIcon(paper, element.x + 4, element.y + 4);
+    _addHoverLogic(element, "rect", ACTIVITY_STROKE_COLOR);
+}
 
   function _drawServiceTask(element) {
     _drawTask(element);

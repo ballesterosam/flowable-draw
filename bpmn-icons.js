@@ -10,18 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-function _bpmnGetColor(element, defaultColor) {
-    var strokeColor;
-    if(element.current) {
-      strokeColor = CURRENT_COLOR;
-    } else if(element.completed) {
-      strokeColor = COMPLETED_COLOR;
-    } else {
-      strokeColor = defaultColor;
-    }
-    return strokeColor;
-  }
+var MAIN_STROKE_COLOR = "#585858";
+function _bpmnGetColor(element, defaultColor)
+{
+	var strokeColor;
+	if(element && element.current) {
+		strokeColor = CURRENT_COLOR;
+	} else if(element && element.completed) {
+		strokeColor = COMPLETED_COLOR;
+	} else {
+		strokeColor = defaultColor;
+	}
+	return strokeColor;
+}
   
 function _drawUserTaskIcon(paper, startX, startY, element)
 {

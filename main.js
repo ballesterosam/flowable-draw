@@ -234,5 +234,7 @@ var data = {
   diagramHeight: 218.0
 };
 
+var data2 = require("./examples/example01.json");
+
 bpmnDraw.showProcessDiagram(data, document.getElementById("bpmnModel"));
-bpmnDraw.showProcessDiagram(data, document.getElementById("bpmnModel2"));
+bpmnDraw.showProcessDiagram(data2, document.getElementById("bpmnModel2"));
