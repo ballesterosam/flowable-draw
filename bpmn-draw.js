@@ -47,6 +47,8 @@
   var changeStateEndElements = new Array();
   var changeStateEndGlowElements = new Array();
 
+  var onClick = function() {};
+
   function _showTip(htmlNode, element) {
     var documentation = "";
     if (element.name && element.name.length > 0) {
@@ -108,6 +110,7 @@
       opacity = 0.2;
       fillColor = "red";
     }
+    if (!topBodyRect) return;
 
     topBodyRect.attr({
       opacity: opacity,
@@ -117,52 +120,55 @@
     // _showTip($(topBodyRect.node), element);
 
     topBodyRect.mouseover(function() {
-      paper.getById(element.id).attr({ stroke: HOVER_COLOR });
+      var el = paper.getById(element.id);
+      if (el) el.attr({ stroke: HOVER_COLOR });
     });
 
     topBodyRect.mouseout(function() {
-      paper.getById(element.id).attr({ stroke: strokeColor });
+      var el = paper.getById(element.id);
+      if (el) el.attr({ stroke: strokeColor });
     });
 
     topBodyRect.click(function() {
-      var startElementIndex = changeStateEndElementIds.indexOf(element.id);
-      var endElementIndex = changeStateEndElementIds.indexOf(element.id);
-      if (startElementIndex >= 0) {
-        var glowElement = changeStateStartGlowElements[startElementIndex];
-        glowElement.remove();
+      onClick(element);
+      // var startElementIndex = changeStateEndElementIds.indexOf(element.id);
+      // var endElementIndex = changeStateEndElementIds.indexOf(element.id);
+      // if (startElementIndex >= 0) {
+      //   var glowElement = changeStateStartGlowElements[startElementIndex];
+      //   glowElement.remove();
 
-        changeStateStartGlowElements.splice(startElementIndex, 1);
-        changeStateStartElementIds.splice(startElementIndex, 1);
-        changeStateStartElements.splice(startElementIndex, 1);
-      } else if (endElementIndex >= 0) {
-        var glowElement = changeStateEndGlowElements[endElementIndex];
-        glowElement.remove();
+      //   changeStateStartGlowElements.splice(startElementIndex, 1);
+      //   changeStateStartElementIds.splice(startElementIndex, 1);
+      //   changeStateStartElements.splice(startElementIndex, 1);
+      // } else if (endElementIndex >= 0) {
+      //   var glowElement = changeStateEndGlowElements[endElementIndex];
+      //   glowElement.remove();
 
-        changeStateEndGlowElements.splice(endElementIndex, 1);
-        changeStateEndElementIds.splice(endElementIndex, 1);
-        changeStateEndElements.splice(endElementIndex, 1);
-      } else {
-        if (element.current) {
-          var startGlowElement = topBodyRect.glow({ color: "blue" });
-          changeStateStartGlowElements.push(startGlowElement);
-          changeStateStartElementIds.push(element.id);
-          changeStateStartElements.push(element);
-        } else {
-          var endGlowElement = topBodyRect.glow({ color: "red" });
-          changeStateEndGlowElements.push(endGlowElement);
-          changeStateEndElementIds.push(element.id);
-          changeStateEndElements.push(element);
-        }
-      }
+      //   changeStateEndGlowElements.splice(endElementIndex, 1);
+      //   changeStateEndElementIds.splice(endElementIndex, 1);
+      //   changeStateEndElements.splice(endElementIndex, 1);
+      // } else {
+      //   if (element.current) {
+      //     var startGlowElement = topBodyRect.glow({ color: "blue" });
+      //     changeStateStartGlowElements.push(startGlowElement);
+      //     changeStateStartElementIds.push(element.id);
+      //     changeStateStartElements.push(element);
+      //   } else {
+      //     var endGlowElement = topBodyRect.glow({ color: "red" });
+      //     changeStateEndGlowElements.push(endGlowElement);
+      //     changeStateEndElementIds.push(element.id);
+      //     changeStateEndElements.push(element);
+      //   }
+      // }
 
-      if (
-        changeStateStartElements.length > 0 &&
-        changeStateEndElements.length > 0
-      ) {
-        // $("#changeStateButton").show();
-      } else {
-        // $("#changeStateButton").hide();
-      }
+      // if (
+      //   changeStateStartElements.length > 0 &&
+      //   changeStateEndElements.length > 0
+      // ) {
+      //   // $("#changeStateButton").show();
+      // } else {
+      //   // $("#changeStateButton").hide();
+      // }
     });
   }
 
@@ -183,9 +189,10 @@
     }
   }
 
-  export function showProcessDiagram(data, element) {
+  export function showProcessDiagram(data, element, onClick_) {
     
     if (!data.elements || data.elements.length == 0) return;
+    if (onClick_) onClick = onClick_;
 
     INITIAL_CANVAS_WIDTH = data.diagramWidth + 20;
     INITIAL_CANVAS_HEIGHT = data.diagramHeight + 50;
@@ -855,7 +862,8 @@
 
 
     polylineInvisible.element.mouseout(function() {
-      paper.getById(polyline.element.id).attr({ stroke: strokeColor });
+      var el = paper.getById(polyline.element.id);
+      if (el) el.attr({ stroke: strokeColor });
     });
 
     _drawArrowHead(line, strokeColor);

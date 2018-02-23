@@ -236,5 +236,9 @@ var data = {
 
 var data2 = require("./examples/example01.json");
 
-bpmnDraw.showProcessDiagram(data, document.getElementById("bpmnModel"));
-bpmnDraw.showProcessDiagram(data2, document.getElementById("bpmnModel2"));
+function onElementClicked(element) {
+    console.log("CLICKED ON ELEMENT", element.type, element.name);
+}
+
+bpmnDraw.showProcessDiagram(data, document.getElementById("bpmnModel"), onElementClicked);
+bpmnDraw.showProcessDiagram(data2, document.getElementById("bpmnModel2"), onElementClicked);
