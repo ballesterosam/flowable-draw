@@ -1,0 +1,11 @@
+{
+  "name": "flowable-draw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jacarma/flowable-draw.git",
+  "author": "Javier Carrasco <javier.carrasco@edorasware.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
